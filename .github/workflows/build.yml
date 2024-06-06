@@ -27,14 +27,14 @@ jobs:
           args: >
             -Dsonar.verbose=true
 
-      - name: Check if Azure DevOps Binding Exists in SonarQube
+      - name: Check if GitHub DevOps Binding Exists in SonarQube
         id: check-binding
         run:  |
           response=$(curl -u ${{ secrets.SONAR_TOKEN }}: -X GET '${{ secrets.SONAR_HOST_URL }}/api/alm_settings/get_binding?project=${{ secrets.PROJECT_KEY }}' | jq -r '.errors[0].msg')
           echo "response=$response" >> $GITHUB_ENV
           echo $response
 
-      - name: Apply Azure DevOps Binding in SonarQube
+      - name: Apply GitHub DevOps Binding in SonarQube
         run: |
           if [[ "${{ env.response }}" == *"is not bound to any DevOps Platform"* ]]; then
             echo "The condition was met, adding the alm binding."
