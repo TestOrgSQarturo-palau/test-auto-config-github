@@ -1,0 +1,44 @@
+name: Build SonarQube
+
+on:
+  push:
+    branches: 
+      - '*'
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  pull-requests: read # allows SonarQube to decorate PRs with analysis results
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        with:
+          args: >
+            -Dsonar.verbose=true
+
+      - name: Check if Azure DevOps Binding Exists in SonarQube
+        id: check-binding
+        run:  |
+          response=$(curl -u ${{ secrets.SONAR_TOKEN }}: -X GET '${{ secrets.SONAR_HOST_URL }}/api/alm_settings/get_binding?project=${{ secrets.PROJECT_KEY }}' | jq -r '.errors[0].msg')
+          echo "response=$response" >> $GITHUB_ENV
+          echo $response
+
+      - name: Apply Azure DevOps Binding in SonarQube
+        run: |
+          if [[ "${{ env.response }}" == *"is not bound to any DevOps Platform"* ]]; then
+            echo "The condition was met, adding the alm binding."
+            curl -u ${{ secrets.SONAR_TOKEN }}: -X POST '${{ secrets.SONAR_HOST_URL }}/api/alm_settings/set_azure_binding?almSetting=${{ secrets.SQ_DEVOPS_INTEGRATION_NAME }}&monorepo=false&project=${{ secrets.PROJECT_KEY }}&projectName=${{ secrets.PROJECT_NAME }}&repositoryName=${{ secrets.REPOSITORY_NAME }}'
+          else
+            echo "The condition was not met, so the task was not executed."
+          fi
