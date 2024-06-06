@@ -3,6 +3,9 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
+variables:
+- group: sonarqube
+
 trigger:
 - main
 
@@ -35,7 +38,7 @@ steps:
 - task: CmdLine@2
   inputs:
     script: |
-      response=$(curl -u squ_71a731faccf11ff1f153a660cb017c4dac2e0289: -X GET 'https://artpal.ngrok.io/api/alm_settings/get_binding?project=${{ sonarqube.projectKey }}' | jq -r '.errors[0].msg')
+      response=$(curl -u squ_71a731faccf11ff1f153a660cb017c4dac2e0289: -X GET 'https://artpal.ngrok.io/api/alm_settings/get_binding?project=$(projectKey)' | jq -r '.errors[0].msg')
       echo "##vso[task.setvariable variable=response]$response"
       echo $response
   displayName: "Check if Azure DevOps Binding Exists in SonarQube"
@@ -46,7 +49,7 @@ steps:
     script: |
       if ("$(response)" -like '*is not bound to any DevOps Platform*') {
         Write-Host "The condition was met, adding the alm binding."
-        curl -u squ_71a731faccf11ff1f153a660cb017c4dac2e0289: -X POST ‘https://artpal.ngrok.io/api/alm_settings/set_azure_binding?almSetting=${{ sonarqube.sq-devops-integration-name }}&monorepo=false&project=${{ sonarqube.projectKey }}&projectName=${{ sonarqube.projectName }}&repositoryName=${{ sonarqube.repositoryName}}'
+        curl -u squ_71a731faccf11ff1f153a660cb017c4dac2e0289: -X POST ‘https://artpal.ngrok.io/api/alm_settings/set_azure_binding?almSetting=$(sq-devops-integration-name)&monorepo=false&project=$(projectKey)&projectName=$(projectName)&repositoryName=$(repositoryName)'
       } else {
         Write-Host "The condition was not met, so the task was not executed."
       }
