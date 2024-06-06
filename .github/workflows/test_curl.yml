@@ -13,7 +13,7 @@ jobs:
           #response=$(curl -u ${{ secrets.SONAR_TOKEN }}: -X GET '${{ secrets.SONAR_HOST_URL }}/api/alm_settings/get_binding?project=${{ secrets.PROJECT_KEY }}' | jq -r '.errors[0].msg')
           response=$(curl -u ${{ secrets.SONAR_TOKEN }}: -X GET '${{ secrets.SONAR_HOST_URL }}/api/alm_settings/get_binding?project=${{ secrets.PROJECT_KEY }}')
           #echo "response=$response" >> $GITHUB_ENV
-          echo $response
+          echo "response=$response"
 
       - name: Apply GitHub DevOps Binding in SonarQube
         run: |
