@@ -10,7 +10,7 @@ jobs:
       - name: Check if GitHub DevOps Binding Exists in SonarQube
         id: check-binding
         run:  |
-          response=$(curl -u ${{ secrets.SONAR_USER_TOKEN }}: -X GET '${{ secrets.SONAR_HOST_URL }}api/alm_settings/get_binding?project=${{ secrets.PROJECT_KEY }}')
+          response=$(curl -u ${{ secrets.SONAR_USER_TOKEN }}: -X GET '${{ secrets.SONAR_HOST_URL }}api/alm_settings/get_binding?project=${{ vars.PROJECT_KEY }}')
           echo "response=$response" >> $GITHUB_ENV
           echo "response=$response"
 
