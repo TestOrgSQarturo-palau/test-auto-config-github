@@ -30,15 +30,19 @@ jobs:
       - name: Check if GitHub DevOps Binding Exists in SonarQube
         id: check-binding
         run:  |
-          response=$(curl -u ${{ secrets.SONAR_TOKEN }}: -X GET '${{ secrets.SONAR_HOST_URL }}/api/alm_settings/get_binding?project=${{ secrets.PROJECT_KEY }}' | jq -r '.errors[0].msg')
+          response=$(curl -u ${{ secrets.SONAR_USER_TOKEN }}: -X GET '${{ secrets.SONAR_HOST_URL }}api/alm_settings/get_binding?project=${{ vars.PROJECT_KEY }}')
           echo "response=$response" >> $GITHUB_ENV
-          echo $response
+          echo "response=$response"
 
       - name: Apply GitHub DevOps Binding in SonarQube
         run: |
-          if [[ "${{ env.response }}" == *"is not bound to any DevOps Platform"* ]]; then
-            echo "The condition was met, adding the alm binding."
-            curl -u ${{ secrets.SONAR_TOKEN }}: -X POST '${{ secrets.SONAR_HOST_URL }}/api/alm_settings/set_azure_binding?almSetting=${{ secrets.SQ_DEVOPS_INTEGRATION_NAME }}&monorepo=false&project=${{ secrets.PROJECT_KEY }}&projectName=${{ secrets.PROJECT_NAME }}&repositoryName=${{ secrets.REPOSITORY_NAME }}'
-          else
+          case "${response}" in
+            *"is not bound to any DevOps Platform"*)
+              echo "The condition was met, adding the alm binding."
+              #curl -u ${{ secrets.SONAR_USER_TOKEN }}: -X POST 'https://artpal.ngrok.io/api/alm_settings/set_github_binding?almSetting=Github SQ99&monorepo=false&project=github-test-auto-project-onboarding&repository=TestOrgSQarturo-palau/test-auto-config-github'
+              curl -u ${{ secrets.SONAR_USER_TOKEN }}: -X POST '${{ vars.SONAR_URL }}?almSetting=${{ vars.SQ_DEVOPS_INTEGRATION_NAME }}&monorepo=false&project=${{ vars.PROJECT_KEY }}&repository=${{ vars.REPOSITORY_NAME }}'
+            ;;
+          *)
             echo "The condition was not met, so the task was not executed."
-          fi
+            ;;
+          esac
