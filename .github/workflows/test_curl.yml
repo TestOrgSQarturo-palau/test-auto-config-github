@@ -19,8 +19,8 @@ jobs:
           case "${response}" in
             *"is not bound to any DevOps Platform"*)
               echo "The condition was met, adding the alm binding."
-              echo "curl -u ${{ secrets.SONAR_USER_TOKEN }}: -X POST '${{ secrets.SONAR_HOST_URL }}/api/alm_settings/set_azure_binding?almSetting=${{ secrets.SQ_DEVOPS_INTEGRATION_NAME }}&monorepo=false&project=${{ secrets.PROJECT_KEY }}&projectName=${{ secrets.PROJECT_NAME }}&repositoryName=${{ secrets.REPOSITORY_NAME }}'"
-              curl -u ${{ secrets.SONAR_USER_TOKEN }}: -X POST '${{ secrets.SONAR_HOST_URL }}/api/alm_settings/set_azure_binding?almSetting=${{ secrets.SQ_DEVOPS_INTEGRATION_NAME }}&monorepo=false&project=${{ secrets.PROJECT_KEY }}&projectName=${{ secrets.PROJECT_NAME }}&repositoryName=${{ secrets.REPOSITORY_NAME }}'
+              echo "curl -u ${{ secrets.SONAR_USER_TOKEN }}: -X POST '${{ secrets.SONAR_HOST_URL }}api/alm_settings/set_azure_binding?almSetting=${{ secrets.SQ_DEVOPS_INTEGRATION_NAME }}&monorepo=false&project=${{ secrets.PROJECT_KEY }}&projectName=${{ secrets.PROJECT_NAME }}&repositoryName=${{ secrets.REPOSITORY_NAME }}'"
+              curl -u ${{ secrets.SONAR_USER_TOKEN }}: -X POST '${{ secrets.SONAR_HOST_URL }}api/alm_settings/set_azure_binding?almSetting=${{ secrets.SQ_DEVOPS_INTEGRATION_NAME }}&monorepo=false&project=${{ secrets.PROJECT_KEY }}&projectName=${{ secrets.PROJECT_NAME }}&repositoryName=${{ secrets.REPOSITORY_NAME }}'
             ;;
           *)
             echo "The condition was not met, so the task was not executed."
