@@ -10,7 +10,6 @@ jobs:
       - name: Check if GitHub DevOps Binding Exists in SonarQube
         id: check-binding
         run:  |
-         #response=$(curl -u ${{ secrets.SONAR_TOKEN }}: -X GET '${{ secrets.SONAR_HOST_URL }}/api/alm_settings/get_binding?project=${{ secrets.PROJECT_KEY }}' | jq -r '.errors[0].msg')
           response=$(curl -u squ_71a731faccf11ff1f153a660cb017c4dac2e0289: -X GET 'https://artpal.ngrok.io//api/alm_settings/get_binding?project=github-test-auto-project-onboarding')
           #echo "response=$response" >> $GITHUB_ENV
           echo "response=$response"
