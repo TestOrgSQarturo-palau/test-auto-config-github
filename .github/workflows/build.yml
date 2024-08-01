@@ -46,3 +46,20 @@ jobs:
             echo "The condition was not met, so the task was not executed."
             ;;
           esac
+
+      - name: Test GH Action for SQ GitHub AutoConfig
+  # You may pin to the exact commit or the version.
+  # uses: TestOrgSQarturo-palau/test_gh_action@f59f82159192ea63e04ef6d57ce209b542b02c56
+        uses: TestOrgSQarturo-palau/test_gh_action@test
+        with:
+            # User Token for SonarQube
+            token: ${{ secrets.SONAR_USER_TOKEN }}
+            # SonarQube URL
+            sonar-url: ${{ vars.SONAR_URL }}
+            # Project Key
+            project-key: ${{ vars.PROJECT_KEY }}
+            # Repository Name
+            repo-name: ${{ vars.REPOSITORY_NAME }}
+            # DevOps Integration Name
+            devops-integration-name: ${{ vars.SQ_DEVOPS_INTEGRATION_NAME }}
+          
