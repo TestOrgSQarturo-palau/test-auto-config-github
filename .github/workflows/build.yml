@@ -64,7 +64,7 @@ jobs:
             *"is not bound to any DevOps Platform"*)
               echo "The condition was met, adding the alm binding."
               #curl -u ${{ secrets.SONAR_USER_TOKEN }}: -X POST 'https://artpal.ngrok.io/api/alm_settings/set_github_binding?almSetting=Github SQ99&monorepo=false&project=github-test-auto-project-onboarding&repository=TestOrgSQarturo-palau/test-auto-config-github'
-              curl -u ${{ secrets.SONAR_USER_TOKEN }}: -X POST '${{ vars.SONAR_URL }}?almSetting=${{ vars.SQ_DEVOPS_INTEGRATION_NAME }}&monorepo=false&project=${{ vars.PROJECT_KEY }}&repository=${{ vars.REPOSITORY_NAME }}'
+              curl -u ${{ secrets.SONAR_USER_TOKEN }}: -X POST '${{ vars.SONAR_URL }}/api/alm_settings/set_github_binding?almSetting=${{ vars.SQ_DEVOPS_INTEGRATION_NAME }}&monorepo=false&project=${{ vars.PROJECT_KEY }}&repository=${{ vars.REPOSITORY_NAME }}'
             ;;
           *)
             echo "The condition was not met, so the task was not executed."
