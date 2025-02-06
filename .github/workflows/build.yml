@@ -19,9 +19,6 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      
-      - name: Install curl
-        run: sudo apt-get update && sudo apt-get install -y curl
         
       - uses: sonarsource/sonarqube-scan-action@master
         env:
@@ -42,7 +39,7 @@ jobs:
   # You may pin to the exact commit or the version.
   # uses: TestOrgSQarturo-palau/test_gh_action@f59f82159192ea63e04ef6d57ce209b542b02c56
         #uses: TestOrgSQarturo-palau/test_gh_action@test4.4
-        uses: ./test_gh_action
+        uses: TestOrgSQarturo-palau/test_gh_action@main
         with:
             # User Token for SonarQube
             token: ${{ secrets.SONAR_USER_TOKEN }}
