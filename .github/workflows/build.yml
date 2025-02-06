@@ -41,7 +41,7 @@ jobs:
       - name: Test GH Action for SQ GitHub AutoConfig
   # You may pin to the exact commit or the version.
   # uses: TestOrgSQarturo-palau/test_gh_action@f59f82159192ea63e04ef6d57ce209b542b02c56
-        uses: TestOrgSQarturo-palau/test_gh_action@test4.3
+        uses: TestOrgSQarturo-palau/test_gh_action@test4.4
         with:
             # User Token for SonarQube
             token: ${{ secrets.SONAR_USER_TOKEN }}
