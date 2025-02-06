@@ -37,7 +37,7 @@ jobs:
       - name: Test GH Action for SQ GitHub AutoConfig
   # You may pin to the exact commit or the version.
   # uses: TestOrgSQarturo-palau/test_gh_action@f59f82159192ea63e04ef6d57ce209b542b02c56
-        uses: TestOrgSQarturo-palau/test_gh_action@test3
+        uses: TestOrgSQarturo-palau/test_gh_action@latest
         with:
             # User Token for SonarQube
             token: ${{ secrets.SONAR_USER_TOKEN }}
@@ -49,6 +49,11 @@ jobs:
             repo-name: ${{ vars.REPOSITORY_NAME }}
             # DevOps Integration Name
             devops-integration-name: ${{ vars.SQ_DEVOPS_INTEGRATION_NAME }}
+
+      - name: Use the value
+        run: |
+          VALUE=$(cat value.txt)
+          echo "The value is $VALUE"
 
       - name: Apply GitHub DevOps Binding in SonarQube
         run: |
