@@ -28,17 +28,7 @@ jobs:
           args: >
             -Dsonar.verbose=true
 
-      #- name: Check if GitHub DevOps Binding Exists in SonarQube
-      #  id: check-binding
-      #  run:  |
-      #    response=$(curl -u ${{ secrets.SONAR_USER_TOKEN }}: -X GET '${{ secrets.SONAR_HOST_URL }}api/alm_settings/get_binding?project=${{ vars.PROJECT_KEY }}')
-      #    echo "response=$response" >> $GITHUB_ENV
-      #    echo "response=$response"
-
-      - name: Test GH Action for SQ GitHub AutoConfig
-  # You may pin to the exact commit or the version.
-  # uses: TestOrgSQarturo-palau/test_gh_action@f59f82159192ea63e04ef6d57ce209b542b02c56
-        #uses: TestOrgSQarturo-palau/test_gh_action@test4.4
+      - name: SonarQube DevOps Binding
         uses: TestOrgSQarturo-palau/test_gh_action@main
         with:
             # User Token for SonarQube
@@ -52,24 +42,6 @@ jobs:
             # DevOps Integration Name
             devops-integration-name: ${{ vars.SQ_DEVOPS_INTEGRATION_NAME }}
 
-      - name: Use the value
-        run: |
-          VALUE=$(cat value.txt)
-          echo "The value is $VALUE"
-
-      #- name: Apply GitHub DevOps Binding in SonarQube
-      #  run: |
-      #    VALUE=$(cat value.txt)
-      #    case "${VALUE}" in
-      #      *"is not bound to any DevOps Platform"*)
-      #        echo "The condition was met, adding the alm binding."
-              #curl -u ${{ secrets.SONAR_USER_TOKEN }}: -X POST 'https://artpal.ngrok.io/api/alm_settings/set_github_binding?almSetting=Github SQ99&monorepo=false&project=github-test-auto-project-onboarding&repository=TestOrgSQarturo-palau/test-auto-config-github'
-      #        curl -u ${{ secrets.SONAR_USER_TOKEN }}: -X POST '${{ vars.SONAR_URL }}/api/alm_settings/set_github_binding?almSetting=${{ vars.SQ_DEVOPS_INTEGRATION_NAME }}&monorepo=false&project=${{ vars.PROJECT_KEY }}&repository=${{ vars.REPOSITORY_NAME }}'
-      #      ;;
-      #    *)
-      #      echo "The condition was not met, so the task was not executed."
-      #      ;;
-      #    esac
 
 
           
